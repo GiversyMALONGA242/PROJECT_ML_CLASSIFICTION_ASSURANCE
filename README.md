@@ -7,7 +7,7 @@
 
 ## 📋 Contexte & Problématique Métier
 
-Dans le secteur de l'assurance, la vente croisée (*Cross-Selling*) consiste à proposer un produit complémentaire à des clients déjà acquis. L'objectif de ce projet est de prédire quels clients possédant une assurance **Santé** sont susceptibles de souscrire à une **assurance Automobile**[cite: 1].
+Dans le secteur de l'assurance, la vente croisée (*Cross-Selling*) consiste à proposer un produit complémentaire à des clients déjà acquis. L'objectif de ce projet est de prédire quels clients possédant une assurance **Santé** sont susceptibles de souscrire à une **assurance Automobile**.
 
 * **Enjeu commercial :** Éviter les campagnes d'appels aléatoires coûteuses en ciblant prioritairement les clients à forte probabilité de conversion[cite: 1].
 * **Problème Machine Learning :** Classification binaire supervisée sur un jeu de données fortement déséquilibré (~87,7 % de non-intéressés contre ~12,3 % d'intéressés)[cite: 1].
@@ -57,4 +57,32 @@ L'audit statistique a mis en évidence trois facteurs discriminants majeurs :
 
 ### 1. Comparaison des algorithmes (Seuil par défaut = 0,50)
 
-| Modèle | ROC-AUC
+| Modèle | ROC-AUC | Recall (Classe 1) | Precision (Classe 1) | F1-Score (Classe 1) |
+| :--- | :---: | :---: | :---: | :---: |
+| **XGBoost Classifier** | **0,8571** | 0,9168 | **0,2866** | **0,4367** |
+| **Régression Logistique (Baseline)** | 0,8536 | 0,9244 | 0,2830 | 0,4334 |
+| **Random Forest Classifier** | 0,8536 | **0,9269** | 0,2793 | 0,4292 |
+
+### 2. Performance finale de XGBoost après optimisation du seuil (`0,65`)
+
+* **F1-Score (Classe 1) :** `0,4581`[cite: 1]
+* **Recall (Classe 1) :** `79 %` (7 384 acheteurs détectés sur 9 342)[cite: 1, 2]
+* **Precision (Classe 1) :** `32 %`[cite: 1]
+
+**Impact opérationnel :** En ciblant les **30 %** de clients recommandés par le modèle au lieu de prospecter toute la base au hasard, l'équipe commerciale capte **79 % des souscriptions potentielles** tout en économisant **70 % des appels inutiles**[cite: 1, 2].
+
+---
+
+## 🛠️ Structure du Projet
+
+```text
+├── data/
+│   └── train.csv                        # Dataset brut Kaggle (381 109 lignes) [Ignoré par git si trop lourd]
+├── notebooks/
+│   └── PROJECT_ML_ASSURANCE.ipynb       # Notebook principal (EDA, Feature Engineering, Benchmark & Export)
+├── scripts/
+│   └── predict.py                       # Script de production autonome pour scorer de nouveaux clients
+├── models/
+│   └── modele_cross_sell_assurance.joblib # Pipeline entraîné (Prétraitement + XGBoost) et seuil optimal
+├── requirements.txt                     # Dépendances Python du projet
+└── README.md
