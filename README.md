@@ -82,6 +82,7 @@ L'audit statistique a mis en évidence trois facteurs discriminants majeurs :
 │   └── PROJECT_ML_ASSURANCE.ipynb       # Notebook principal (EDA, Feature Engineering, Benchmark & Export)
 ├── scripts/
 │   └── predict.py                       # Script de production autonome pour scorer de nouveaux clients
+|   └── PROJECT_ML_ASSURANCE.py                       
 ├── models/
 │   └── modele_cross_sell_assurance.joblib # Pipeline entraîné (Prétraitement + XGBoost) et seuil optimal
 ├── requirements.txt                     # Dépendances Python du projet
